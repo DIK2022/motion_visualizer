@@ -1,0 +1,120 @@
+# ==================== Python ====================
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+.venv/
+venv/
+ENV/
+env/
+*.so
+*.pyd
+*.egg-info/
+*.egg
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ==================== C++ ====================
+*.o
+*.obj
+*.exe
+*.dll
+*.lib
+*.a
+*.so
+*.dylib
+*.out
+*.ilk
+*.pdb
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+!Makefile                # Исключение: ваш Makefile для документации
+compile_commands.json
+
+# ==================== LaTeX (временные файлы) ====================
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+*.idx
+*.ilg
+*.ind
+*.lol
+*.nav
+*.snm
+*.vrb
+
+# Сгенерированные PDF (если не хотите хранить бинарники в Git)
+# docs/**/*.pdf
+# !docs/**/*.pdf    # раскомментируйте, если PDF нужно хранить
+
+# ==================== IDE ====================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.bak
+*.cache
+*.code-workspace
+
+# ==================== OS ====================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ==================== Логи ====================
+*.log
+app.log
+logs/
+
+# ==================== Базы данных ====================
+*.db
+*.sqlite
+*.sqlite3
+
+# ==================== Сборка и временные файлы ====================
+build/
+cmake-build-*/
+__pycache__/
+*.tmp
+temp/
+
+# ==================== Документация (временные файлы) ====================
+docs/**/*.aux
+docs/**/*.log
+docs/**/*.out
+docs/**/*.toc
+docs/**/*.lof
+docs/**/*.lot
+docs/**/*.synctex.gz
+docs/**/*.fls
+docs/**/*.fdb_latexmk
+
+# ==================== Файлы окружения и конфигурации с секретами ====================
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.crt
+
+# ==================== Докер ====================
+*.pid
+docker-compose.override.yml

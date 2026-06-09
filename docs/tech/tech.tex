@@ -1,0 +1,324 @@
+% !TEX program = xelatex
+\documentclass[12pt, a4paper]{article}
+
+% --- Пакеты для русского языка и кодировки ---
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\setotherlanguage{english}
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Courier New}
+
+% --- Пакеты для полей и форматирования (ГОСТ) ---
+\usepackage[left=30mm, right=15mm, top=20mm, bottom=20mm]{geometry}
+\usepackage{indentfirst}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{misccorr}
+
+% --- Пакеты для таблиц, списков, ссылок, кода ---
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\setlist{leftmargin=25pt}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=black,
+}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Настройка листингов для C++ и Python
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    showstringspaces=false,
+    tabsize=4
+}
+
+% --- Нумерация страниц ---
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rfoot{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+
+% --- Титульный лист ---
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        
+        {\large \textbf{ИП Климук Д.И.}}
+        
+        \vspace{4cm}
+        
+        {\Large \textbf{УТВЕРЖДАЮ}}
+        
+        \vspace{0.5cm}
+        
+        {\large ИП \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Климук Д.И.}
+        
+        \vspace{0.3cm}
+        
+        {\large «\_\_\_» \_\_\_\_\_\_\_\_\_\_ 2026 г.}
+        
+        \vspace{4cm}
+        
+        {\huge \textbf{ТЕХНИЧЕСКИЙ ПРОЕКТ}}
+        
+        \vspace{0.5cm}
+        
+        {\Large на программу \enquote{Motion Visualizer}}
+        
+        \vspace{1cm}
+        
+        {\large Шифр темы: MV-PET-01-2026}
+        
+        \vspace{1cm}
+        
+        {\normalsize \textbf{Пояснительная записка}}
+        
+        \vfill
+        
+        \begin{tabular}{ll}
+            Листов & \textbf{35} \\
+        \end{tabular}
+        
+        \vspace{1cm}
+        
+        \begin{tabularx}{\textwidth}{Xr}
+            \textbf{СОГЛАСОВАНО} & \textbf{РАЗРАБОТАНО} \\
+            (при наличии заказчика) & \\
+            & \\
+            & \hfill \rule{5cm}{0.4pt} \\
+            & \hfill \rule{5cm}{0.4pt} \\
+            «\_\_\_» \_\_\_\_\_\_\_\_ 2026 г. & \hfill \rule{5cm}{0.4pt} \\
+            & \hfill Д.И. Климук \\
+            & «\_\_\_» \_\_\_\_\_\_\_\_ 2026 г.
+        \end{tabularx}
+    \end{center}
+\end{titlepage}
+
+% --- Содержание ---
+\tableofcontents
+\newpage
+
+% --- Введение ---
+\section{Введение}
+
+\subsection{Наименование программы}
+Полное наименование программы: \enquote{Программа для визуализации движения твердотельного объекта в трёхмерной среде с регистрацией параметров в базе данных}.
+
+Краткое наименование: \enquote{Motion Visualizer}.
+
+\subsection{Условное обозначение темы разработки}
+MV-PET-01-2026.
+
+\subsection{Основание для разработки}
+Разработка выполнена в рамках самостоятельного задания (пет-проекта), утверждённого ИП Климук Д.И. \enquote{05} июня 2026 года.
+
+\subsection{Цель разработки}
+Создание демонстрационного прототипа, подтверждающего техническую возможность и эффективность связки:
+\begin{itemize}
+    \item графический интерфейс пользователя (PySide6);
+    \item 3D-визуализация (OpenGL);
+    \item математическое ядро на C++ (интегрированное через pybind11);
+    \item база данных для хранения параметров и результатов (SQLite);
+    \item минимальная документация по ГОСТ.
+\end{itemize}
+
+\section{Назначение и область применения}
+
+\subsection{Назначение программы}
+Программа предназначена для моделирования и визуализации движения объекта (материальной точки) по заданной траектории с регистрацией параметров движения в базе данных.
+
+\subsection{Область применения}
+Прототип может быть использован в качестве основы для:
+\begin{itemize}
+    \item учебных тренажёров;
+    \item симуляторов движения;
+    \item цифровых полигонов для испытаний;
+    \item систем мониторинга и анализа движения.
+\end{itemize}
+
+\section{Технические характеристики}
+
+\subsection{Постановка задачи на разработку программы}
+
+Требуется разработать программу, обеспечивающую выполнение следующих функций:
+\begin{enumerate}
+    \item запуск симуляции движения объекта из состояния покоя;
+    \item движение объекта из начальной точки $A(0,0,0)$ в конечную точку $B(100,0,0)$ по линейной траектории;
+    \item запись в базу данных времени старта и окончания движения;
+    \item остановка объекта по достижении конечной точки;
+    \item сброс объекта в начальную позицию по команде пользователя.
+\end{enumerate}
+
+\subsection{Описание применяемых математических методов}
+
+Для моделирования движения используется метод интегрирования дифференциальных уравнений движения материальной точки.
+
+Уравнение движения в векторной форме:
+\begin{equation}
+    m \frac{d\mathbf{v}}{dt} = \mathbf{F}_{\text{сум}}
+\end{equation}
+
+В скалярной форме для одномерного движения вдоль оси $x$:
+\begin{equation}
+    \frac{dx}{dt} = v(t), \quad \frac{dv}{dt} = a(t)
+\end{equation}
+
+В начальный момент времени $t_0$:
+\begin{equation}
+    x(t_0) = 0, \quad v(t_0) = 0
+\end{equation}
+
+При постоянном ускорении $a$:
+\begin{equation}
+    x(t) = x_0 + v_0 t + \frac{at^2}{2}
+\end{equation}
+
+Для численного интегрирования предлагается использовать метод Эйлера:
+\begin{align}
+    v_{n+1} &= v_n + a \cdot \Delta t \\
+    x_{n+1} &= x_n + v_n \cdot \Delta t
+\end{align}
+
+\subsection{Допущения и ограничения}
+\begin{enumerate}
+    \item объект считается материальной точкой (размерами и формой пренебрегаем);
+    \item движение происходит в одной плоскости без учёта вращения;
+    \item внешние силы (трение, сопротивление среды) не учитываются;
+    \item шаг интегрирования $\Delta t$ принимается равным 0,1 секунды.
+\end{enumerate}
+
+\subsection{Описание алгоритма решения задачи}
+
+Общий алгоритм работы программы представлен на рисунке 1.
+
+\begin{figure}[h]
+    \centering
+    \framebox(400,300)[c]{\parbox{12cm}{\centering \textbf{Блок-схема алгоритма} \\ (будет заменена на реальное изображение)}}
+    \caption{Общая блок-схема алгоритма работы программы}
+    \label{fig:algorithm}
+\end{figure}
+
+\subsection{Обоснование выбора метода организации входных и выходных данных}
+
+\subsubsection{Входные данные}
+Входными данными являются параметры, задаваемые пользователем через графический интерфейс:
+\begin{itemize}
+    \item начальные координаты (по умолчанию $x=0$);
+    \item конечные координаты (по умолчанию $x=100$);
+    \item скорость движения (по умолчанию $v=5$ ед./с).
+\end{itemize}
+
+\subsubsection{Выходные данные}
+Выходные данные сохраняются в базе данных SQLite:
+\begin{itemize}
+    \item идентификатор сессии (первичный ключ);
+    \item время начала движения;
+    \item время окончания движения;
+    \item пройденное расстояние;
+    \item длительность движения.
+\end{itemize}
+
+\subsection{Формы представления входных и выходных данных}
+\begin{itemize}
+    \item Входные данные задаются через элементы управления (QLineEdit, QSpinBox, QSlider).
+    \item Выходные данные представляются в виде таблицы в GUI и в виде строк в консоли.
+    \item По окончании движения выводится информационное сообщение: \enquote{Движение завершено. Путь: X единиц. Время: Y секунд.}
+\end{itemize}
+
+\subsection{Синтаксис и семантика языка}
+Для интеграции C++ и Python используется pybind11. Пример экспорта класса:
+
+\begin{lstlisting}[language=C++, caption={Экспорт класса C++ в Python через pybind11}]
+namespace py = pybind11;
+
+class Integrator {
+public:
+    Integrator(double speed = 5.0);
+    void update(double dt);
+    double getX() const { return x; }
+private:
+    double x, speed;
+};
+
+PYBIND11_MODULE(core, m) {
+    py::class_<Integrator>(m, "Integrator")
+        .def(py::init<double>())
+        .def("update", &Integrator::update)
+        .def("get_x", &Integrator::getX);
+}
+\end{lstlisting}
+
+\subsection{Структура программы}
+Структура программы представлена на рисунке 2.
+
+\begin{figure}[h]
+    \centering
+    \framebox(400,200)[c]{\parbox{12cm}{\centering \textbf{Структурная схема программы} \\ (будет заменена на реальное изображение)}}
+    \caption{Структура программных модулей}
+    \label{fig:structure}
+\end{figure}
+
+\subsection{Связи между модулями}
+\begin{enumerate}
+    \item Модуль GUI (главное окно) содержит кнопки управления и OpenGL-виджет.
+    \item По нажатию кнопки \enquote{Старт} запускается таймер, который с интервалом $\Delta t$ вызывает метод обновления позиции из C++ ядра.
+    \item После каждого обновления позиция объекта передаётся в OpenGL-виджет для перерисовки.
+    \item По окончании движения (достижение конечной точки) вызывается метод записи в базу данных через SQLite.
+\end{enumerate}
+
+\subsection{Окончательное определение конфигурации технических средств}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|p{4cm}|p{3cm}|p{8cm}|}
+        \hline
+        \textbf{Компонент} & \textbf{Требование} & \textbf{Обоснование} \\
+        \hline
+        Процессор & x86\_64, 2+ ядра & Обеспечение производительности \\
+        \hline
+        Оперативная память & 4+ ГБ & Достаточно для работы приложения и СУБД \\
+        \hline
+        Видеокарта & Поддержка OpenGL 3.3+ & Требование Qt OpenGL \\
+        \hline
+        ОС & Ubuntu 22.04/24.04 & Стабильность, совместимость \\
+        \hline
+    \end{tabular}
+    \caption{Финальные требования к техническим средствам}
+\end{table}
+
+\section{Ожидаемые технико-экономические показатели}
+
+\subsection{Трудоёмкость разработки}
+Планируемая трудоёмкость разработки составляет 10–12 человеко-часов.
+
+\subsection{Эффективность}
+Создание прототипа позволит сократить время на техническую демонстрацию компетенций при переговорах с потенциальными заказчиками. Ожидаемый экономический эффект — возможность заключения контрактов на сумму от 2,4 млн рублей.
+
+\section{Источники, использованные при разработке}
+
+\begin{enumerate}
+    \item ГОСТ 19.102-77. Единая система программной документации. Стадии разработки.
+    \item ГОСТ 19.404-79. Единая система программной документации. Пояснительная записка. Требования к содержанию и оформлению.
+    \item ГОСТ 19.402-78. Единая система программной документации. Описание программы.
+    \item Qt Documentation. Qt for Python. \url{https://doc.qt.io/qtforpython/}
+    \item pybind11 Documentation. \url{https://pybind11.readthedocs.io/}
+    \item Learn OpenGL. \url{https://learnopengl.com/}
+\end{enumerate}
+
+\end{document}
