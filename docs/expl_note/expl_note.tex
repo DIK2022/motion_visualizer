@@ -1,0 +1,87 @@
+\documentclass[a4paper,14pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{geometry}
+\usepackage{float}
+\geometry{left=25mm, right=15mm, top=20mm, bottom=20mm}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\vspace*{2cm}
+{\Large \textbf{ПОЯСНИТЕЛЬНАЯ ЗАПИСКА}} \\
+\vspace{0.5cm}
+{\large к техническому проекту} \\
+\vspace{0.5cm}
+{\huge \textbf{«Motion Visualizer»}} \\
+\vspace{0.5cm}
+\vfill
+г. Ростов-на-Дону, 2026
+\end{center}
+\end{titlepage}
+
+\section{Обоснование выбора архитектуры}
+
+\subsection{Причины выбора PySide6}
+\begin{itemize}
+    \item Лицензия LGPL (разрешено коммерческое использование)
+    \item Встроенная поддержка OpenGL (QOpenGLWidget)
+    \item Кроссплатформенность (Linux/Windows/macOS)
+    \item Интеграция с Qt Designer для быстрого прототипирования GUI
+\end{itemize}
+
+\subsection{Причины выбора C++ для вычислительного ядра}
+\begin{itemize}
+    \item Производительность (отсутствие GIL, нативная работа с памятью)
+    \item Предсказуемое время выполнения (нет GC-пауз)
+    \item Возможность использования SIMD и многопоточности
+    \item pybind11 обеспечивает простую интеграцию с Python
+\end{itemize}
+
+\subsection{Причины выбора SQLite}
+\begin{itemize}
+    \item Не требует отдельного сервера
+    \item Простая интеграция через SQLAlchemy
+    \item Достаточно для объёма данных (логи испытаний)
+    \item Переносимость (один файл .db)
+\end{itemize}
+
+\section{Описание алгоритмов}
+
+\subsection{Метод Эйлера для интегрирования}
+Используется простейший метод численного интегрирования:
+\[
+x(t + \Delta t) = x(t) + v_x \cdot \Delta t
+\]
+\[
+y(t + \Delta t) = y(t) + v_y \cdot \Delta t
+\]
+Выбран за линейную сложность и достаточную точность для демонстрации.
+
+\subsection{Алгоритм перетаскивания мышью}
+\begin{enumerate}
+    \item При нажатии ЛКМ — запоминаем координаты курсора
+    \item При движении — вычисляем смещение и добавляем к позиции объекта
+    \item При отпускании — прекращаем обновление позиции
+\end{enumerate}
+
+\section{Паттерны проектирования}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{4cm}|p{10cm}|}
+\hline
+\textbf{Паттерн} & \textbf{Применение} \\
+\hline
+Command & Кнопки «Старт», «Сброс», «Показать логи» инкапсулированы в методы \\
+\hline
+Singleton & DatabaseClient (одно соединение с БД) \\
+\hline
+Bridge & C++ модуль отделён от Python через pybind11 (можно заменить реализацию) \\
+\hline
+\end{tabular}
+\end{table}
+
+\end{document}

@@ -1,0 +1,93 @@
+\documentclass[a4paper,14pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{geometry}
+\geometry{left=25mm, right=15mm, top=20mm, bottom=20mm}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\vspace*{2cm}
+{\Large \textbf{ТЕХНИЧЕСКИЙ ПРОЕКТ}} \\
+\vspace{0.5cm}
+{\large на программу} \\
+\vspace{0.5cm}
+{\huge \textbf{«Motion Visualizer»}} \\
+\vspace{0.5cm}
+\vfill
+г. Ростов-на-Дону, 2026
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Архитектура программы}
+
+\subsection{Общая структура}
+Программа состоит из следующих модулей:
+\begin{itemize}
+    \item \textbf{main.py} — точка входа, главное окно (PySide6)
+    \item \textbf{glwidget.py} — 3D-визуализация (OpenGL)
+    \item \textbf{motion\_core.so} — C++ модуль расчёта движения
+    \item \textbf{db\_client.py} — работа с SQLite
+\end{itemize}
+
+\subsection{Схема взаимодействия модулей}
+\begin{figure}[H]
+\centering
+\framebox(400,100){GUI → C++ → OpenGL → SQLite}
+\caption{Схема потоков данных}
+\end{figure}
+
+\section{Алгоритмы}
+
+\subsection{Интегратор движения}
+Используется метод Эйлера:
+\[
+x_{n+1} = x_n + v_x \cdot \Delta t
+\]
+\[
+y_{n+1} = y_n + v_y \cdot \Delta t
+\]
+
+\subsection{Обработка событий мыши}
+При перетаскивании объекта вычисляется смещение курсора и обновляется позиция:
+\[
+\Delta x = x_{current} - x_{last}
+\]
+\[
+\Delta y = y_{current} - y_{last}
+\]
+
+\section{Стек технологий}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{5cm}|p{8cm}|}
+\hline
+\textbf{Компонент} & \textbf{Технология} \\
+\hline
+GUI & PySide6 (Qt6) \\
+\hline
+3D-графика & PyOpenGL + QtOpenGLWidgets \\
+\hline
+Вычислительное ядро & C++20 + pybind11 \\
+\hline
+База данных & SQLite + SQLAlchemy \\
+\hline
+Сборка Python & uv \\
+\hline
+Сборка C++ & CMake \\
+\hline
+\end{tabular}
+\caption{Стек технологий}
+\end{table}
+
+\end{document}

@@ -1,0 +1,81 @@
+\documentclass[a4paper,14pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{geometry}
+\geometry{left=25mm, right=15mm, top=20mm, bottom=20mm}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\vspace*{2cm}
+{\Large \textbf{ОПИСАНИЕ ПРОГРАММЫ}} \\
+\vspace{0.5cm}
+{\large \textbf{«Motion Visualizer»}} \\
+\vspace{0.5cm}
+\vfill
+г. Ростов-на-Дону, 2026
+\end{center}
+\end{titlepage}
+
+\section{Назначение программы}
+Программа демонстрирует движение 3D-объекта (куба) в трёхмерном пространстве с регистрацией параметров в базе данных. Предназначена для демонстрации связки: GUI → C++ ядро → 3D-визуализация → БД.
+
+\section{Функциональные характеристики}
+
+\subsection{Основные функции}
+\begin{enumerate}
+    \item Запуск движения (кнопка «Старт»)
+    \item Остановка и сброс (кнопка «Сброс»)
+    \item Перетаскивание объекта мышью
+    \item Просмотр истории испытаний (кнопка «Показать логи»)
+    \item Автоматическое сохранение в SQLite
+\end{enumerate}
+
+\subsection{Входные данные}
+\begin{itemize}
+    \item Скорость движения (задана в коде: 50 px/сек)
+    \item Положение курсора мыши (при перетаскивании)
+\end{itemize}
+
+\subsection{Выходные данные}
+\begin{itemize}
+    \item Координаты объекта на экране
+    \item Записи в БД: ID, сценарий, время старта/финиша, дистанция, статус
+\end{itemize}
+
+\section{Условия эксплуатации}
+
+\subsection{Требования к аппаратному обеспечению}
+\begin{itemize}
+    \item Процессор: x86\_64, 2+ ядра
+    \item ОЗУ: 4+ ГБ
+    \item Видеокарта с поддержкой OpenGL 3.3+
+\end{itemize}
+
+\subsection{Требования к программному обеспечению}
+\begin{itemize}
+    \item ОС: Linux (Ubuntu 22.04/24.04), Windows 10/11
+    \item Python 3.13+, uv
+    \item CMake 3.15+ (для сборки C++ модуля)
+\end{itemize}
+
+\section{Вызов и загрузка}
+
+\subsection{Установка}
+\begin{verbatim}
+git clone https://github.com/DIK2022/motion_visualizer
+cd motion_visualizer
+uv sync
+mkdir build && cd build
+cmake .. && make
+cd ..
+\end{verbatim}
+
+\subsection{Запуск}
+\begin{verbatim}
+uv run python -m motion_visualizer.main
+\end{verbatim}
+
+\end{document}
