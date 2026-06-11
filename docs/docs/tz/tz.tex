@@ -1,0 +1,236 @@
+\documentclass[a4paper,14pt]{extarticle}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[english,russian]{babel}
+\usepackage{geometry}
+\geometry{left=25mm, right=15mm, top=20mm, bottom=20mm}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue
+}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    language=C++,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    frame=single,
+    breaklines=true,
+    tabsize=2
+}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\vspace*{1cm}
+{\Large \textbf{УТВЕРЖДАЮ}} \\
+\vspace{0.3cm}
+{\large ИП Климук Д.И.} \\
+\vspace{0.2cm}
+\textit{«\underline{\hspace{1cm}}» \underline{\hspace{2cm}} 2026 г.}
+\vspace{2cm}
+
+{\Large \textbf{ТЕХНИЧЕСКОЕ ЗАДАНИЕ}} \\
+\vspace{0.5cm}
+{\large на разработку программы} \\
+\vspace{0.5cm}
+{\huge \textbf{«Motion Visualizer»}} \\
+\vspace{0.5cm}
+{\large шифр темы: MV-PET-01-2026}
+\vspace{2cm}
+
+\begin{flushleft}
+\textbf{Лист утверждения:} \\
+\vspace{0.5cm}
+\begin{tabular}{|p{7cm}|p{4cm}|}
+\hline
+\textbf{Должность} & \textbf{Подпись, дата} \\
+\hline
+Разработчик & \underline{\hspace{4cm}} \\
+\hline
+\end{tabular}
+\end{flushleft}
+
+\vfill
+\begin{center}
+г. Ростов-на-Дону, 2026
+\end{center}
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Вводная часть}
+
+\subsection{Полное наименование программы}
+Программа для визуализации движения твердотельного объекта в трёхмерной среде с регистрацией параметров в базе данных.
+
+\subsection{Краткое наименование}
+\textbf{«Motion Visualizer»}
+
+\subsection{Область применения}
+Демонстрация базовых возможностей стека технологий для последующего масштабирования до симулятора сложных динамических систем (цифровых полигонов, тренажёров).
+
+\section{Основание для разработки}
+
+\subsection{Документ-основание}
+Задание на самостоятельную (пет-проект) разработку.
+
+\subsection{Организация-инициатор}
+ИП Климук Денис Иванович
+
+\subsection{Тема разработки}
+Создание демонстрационного прототипа для отработки связки:
+
+\begin{center}
+\texttt{3D-визуализация <-> Математическая модель <-> База данных}
+\end{center}
+
+\section{Назначение программы}
+
+\subsection{Функциональное назначение}
+Программа должна обеспечивать:
+\begin{itemize}
+    \item Запуск симуляции движения объекта;
+    \item Отображение 3D-объекта (куб/сфера), перемещающегося по заданной траектории;
+    \item Сохранение в базе данных фактов начала и окончания движения.
+\end{itemize}
+
+\subsection{Эксплуатационное назначение}
+Предназначена для демонстрации заказчику технической компетенции в связке:
+\begin{itemize}
+    \item GUI (Qt/PySide6);
+    \item Численные методы (Python + C++);
+    \item Базы данных (PostgreSQL/SQLite);
+    \item Документирование (ГОСТ 19.101-2024).
+\end{itemize}
+
+\section{Технические требования}
+
+\subsection{Требования к функциональным характеристикам}
+\begin{enumerate}
+    \item \textbf{Функция «Пуск»:} Пользователь нажимает кнопку «Старт» в графическом интерфейсе.
+    \item \textbf{Регистрация события:} Программа автоматически фиксирует в БД время старта и идентификатор сценария.
+    \item \textbf{Движение:} В 3D-окне происходит плавное перемещение примитива (куб) из точки A (x1, y1, z1) в точку Б (x2, y2, z2) за N секунд.
+    \item \textbf{Остановка:} По достижении конечной точки программа фиксирует в БД время окончания.
+    \item \textbf{Сброс:} Кнопка «Сброс» возвращает объект в исходную позицию.
+\end{enumerate}
+
+\subsection{Требования к надежности}
+\begin{itemize}
+    \item Программа должна корректно обрабатывать повторные нажатия кнопки «Пуск» во время активного движения.
+    \item Ошибки подключения к БД не должны приводить к вылету приложения.
+\end{itemize}
+
+\subsection{Условия эксплуатации}
+\begin{itemize}
+    \item \textbf{Операционная система:} Windows 10/11, Ubuntu 22.04/24.04.
+    \item \textbf{Оборудование:} ПЭВМ с поддержкой OpenGL 3.3+.
+    \item \textbf{Персонал:} 1 оператор (разработчик).
+\end{itemize}
+
+\subsection{Требования к составу технических средств}
+\begin{itemize}
+    \item Процессор: x86\_64, 2+ ядра;
+    \item ОЗУ: 4+ ГБ;
+    \item Дисплей: 1920x1080.
+\end{itemize}
+
+\subsection{Требования к информационной и программной совместимости}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|p{5cm}|p{8cm}|}
+\hline
+\textbf{Компонент} & \textbf{Технология} \\
+\hline
+Язык бэкенд & C++20/23 \\
+\hline
+Язык фронтенд & Python 3.13+ \\
+\hline
+GUI & PySide6 (Qt6) 6.11+ \\
+\hline
+3D графика & PyOpenGL + QtOpenGLWidgets \\
+\hline
+Связь C++ <-> Python & pybind11 \\
+\hline
+Сборка Python & uv (Rust) \\
+\hline
+БД & SQLite + SQLAlchemy \\
+\hline
+\end{tabular}
+\caption{Стек технологий}
+\end{table}
+
+\section{Требования к программной документации}
+
+Состав документации в соответствии с ГОСТ 19.101-2024:
+\begin{enumerate}
+    \item Текст программы (исходный код в репозитории Git);
+    \item Описание программы по ГОСТ 19.402-78;
+    \item Пояснительная записка по ГОСТ 19.404-79.
+\end{enumerate}
+
+\section{Технико-экономические показатели}
+
+\begin{itemize}
+    \item \textbf{Оценка трудозатрат:} 40–50 человеко-часов (5 дней).
+    \item \textbf{Эффективность:} Сокращение времени демонстрации технической компетенции при переговорах с потенциальными заказчиками.
+\end{itemize}
+
+\section{Стадии и этапы разработки}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|l|l|}
+\hline
+\textbf{День} & \textbf{Этап} & \textbf{Результат} \\
+\hline
+1 & Разработка ТЗ, настройка окружения, каркас GUI + OpenGL & Окно с кнопкой и 3D-виджетом \\
+\hline
+2 & C++ интегратор, движение объекта & Анимация движения \\
+\hline
+3 & Подключение БД & Сохранение в SQLite \\
+\hline
+4 & Документация по ГОСТ & PDF-документы \\
+\hline
+5 & Интеграция, отладка, релиз & Стабильная версия v1.0.0 \\
+\hline
+\end{tabular}
+\caption{План разработки}
+\end{table}
+
+\section{Порядок контроля и приемки}
+
+\subsection{Критерии приемки}
+\begin{enumerate}
+    \item При нажатии «Старт» в БД создаётся запись с временем старта;
+    \item Объект перемещается из точки А в точку Б за заданное время;
+    \item По окончании движения в БД фиксируется время финиша;
+    \item Кнопка «Сброс» возвращает объект в исходное положение.
+\end{enumerate}
+
+\section{Перечень принятых сокращений}
+
+\begin{tabular}{p{4cm}p{10cm}}
+MVP & Minimum Viable Product (Минимально жизнеспособный продукт) \\
+БД & База данных \\
+ТЗ & Техническое задание \\
+GUI & Graphical User Interface (графический интерфейс) \\
+\end{tabular}
+
+\end{document}
